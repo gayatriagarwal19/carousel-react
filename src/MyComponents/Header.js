@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Navbar, Container, Nav, NavDropdown, Carousel, CardGroup, Card, Form, Button, Row, Col } from 'react-bootstrap';
+import { render } from '@testing-library/react';
+import { Navbar, Container, Nav, NavDropdown, Carousel, CardGroup, Card, Form, Button, Row, Col, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import img1 from './images/image1.jpg';
 import img2 from './images/image2.png';
@@ -7,13 +8,16 @@ import img3 from './images/image3.png';
 import img4 from './images/image4.png';
 import img5 from './images/image5.png';
 import img6 from './images/image6.jpg';
-import Modal from './Modal'
 
 
 
 export default function Header() {
 
-    const [openModal, setOpenModal] = useState(false);
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
 
     return (
         <>
@@ -91,10 +95,6 @@ export default function Header() {
                         </Card>
                     </CardGroup>
                 </div>
-
-                
-
-
                 <Form>
                     <Row>
                         <Col>
@@ -109,21 +109,32 @@ export default function Header() {
                                 <Form.Control type="text" placeholder="Enter Contact Number" />
                             </Form.Group>
                         </Col>
-
                     </Row>
-                    
-                     
+
                 </Form>
-                <Button size="sm" variant="primary" type="submit"
-                        onClick={() => {
-                            setOpenModal(true);
-                        }} >
-                        Submit
-                    </Button>
-                    {openModal && <Modal closeModal={setOpenModal}/>}
+                <Button size="sm" variant="primary" type="submit" onClick={handleShow}>
+                    Submit
+                </Button>
+                <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Successful</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Thankyou for your submission</Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleClose}>
+                            Close
+                        </Button>
+                        <Button variant="primary" onClick={handleClose}>
+                            Save Changes
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+
             </div>
         </>
     )
 }
+
+
 
 
